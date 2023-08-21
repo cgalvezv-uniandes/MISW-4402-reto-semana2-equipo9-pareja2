@@ -34,6 +34,8 @@ const char MQTT_SUB_TOPIC[] = HOSTNAME "/";
 const char MQTT_PUB_TOPIC1[] = "humedad/santa_cruz/" HOSTNAME;
 //Tópico al que se enviarán los datos de temperatura
 const char MQTT_PUB_TOPIC2[] = "temperatura/santa_cruz/" HOSTNAME;
+//Tópico al que se enviarán los datos de luminosidad
+const char MQTT_PUB_TOPIC3[] = "luminosidad/santa_cruz/" HOSTNAME;
 
 //////////////////////////////////////////////////////
 
@@ -177,7 +179,9 @@ void loop()
   //Lee los datos del sensor
   float h = dht.readHumidity();
   float t = dht.readTemperature();
-
+  float l = analogRead(LDR);
+  //Transforma la información a la notación JSON para poder enviar los datos 
+  //El mensaje que se envía es de la forma {"value": x}, donde x es el valor de temperatura, luminosidad o humedad
   
   //JSON para humedad
   String json = "{\"value\": "+ String(h) + "}";

@@ -10,6 +10,9 @@ DHT dht(dht_dpin, DHTTYPE);
 
 #include "secrets.h"
 
+// Pin donde se obtendrá la data para el sensor de luminosidad
+const int LDR = A0;
+
 //Conexión a Wifi
 //Nombre de la red Wifi
 const char ssid[] = "Alicia";

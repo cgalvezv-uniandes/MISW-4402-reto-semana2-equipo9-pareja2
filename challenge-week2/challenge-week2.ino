@@ -182,7 +182,7 @@ void loop()
   float l = analogRead(LDR);
   //Transforma la información a la notación JSON para poder enviar los datos 
   //El mensaje que se envía es de la forma {"value": x}, donde x es el valor de temperatura, luminosidad o humedad
-  
+
   //JSON para humedad
   String json = "{\"value\": "+ String(h) + "}";
   char payload1[json.length()+1];
@@ -191,14 +191,19 @@ void loop()
   json = "{\"value\": "+ String(t) + "}";
   char payload2[json.length()+1];
   json.toCharArray(payload2,json.length()+1);
-
+  //JSON para luminosidad
+  json = "{\"value\": "+ String(l) + "}";
+  char payload3[json.length()+1];
+  json.toCharArray(payload3,json.length()+1);
 
   //Si los valores recolectados no son indefinidos, se envían a los tópicos correspondientes
-  if ( !isnan(h) && !isnan(t)) {
+  if ( !isnan(h) && !isnan(t) && !isnan(l)) {
     //Publica en el tópico de la humedad
     client.publish(MQTT_PUB_TOPIC1, payload1, false);
     //Publica en el tópico de la temperatura
     client.publish(MQTT_PUB_TOPIC2, payload2, false);
+    //Publica en el tópico de la luminosidad
+    client.publish(MQTT_PUB_TOPIC3, payload3, false);
   }
 
   //Imprime en el monitor serial la información recolectada
@@ -208,8 +213,10 @@ void loop()
   Serial.print(MQTT_PUB_TOPIC2);
   Serial.print(" -> ");
   Serial.println(payload2);
-
-   
+  Serial.print(MQTT_PUB_TOPIC3);
+  Serial.print(" -> ");
+  Serial.println(payload3);
+  
   /*Espera 5 segundos antes de volver a ejecutar la función loop*/
   delay(5000);
 }
